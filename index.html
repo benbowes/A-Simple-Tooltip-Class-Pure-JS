@@ -9,18 +9,17 @@ body{
 }
 .tooltip{
     position: absolute;
-    display: inline-block;
-    transition: opacity,margin 0.8s ease;
+    transition: opacity 0 ease;
     opacity: 0;
-    margin-top: 5px;
+    visibility: hidden;
 }
 .tooltip-msg{
     background: #FFF;
-	color: #222;
-	padding: 5px 15px;
-	border: 2px solid #222;
-	border-radius: 2px;
-	font-weight: bold;
+    color: #222;
+    padding: 5px 15px;
+    border: 2px solid #222;
+    border-radius: 2px;
+    font-weight: bold;
 }
 .tooltip-arrow{
     position: absolute;
@@ -34,9 +33,9 @@ body{
     border-top-color: #333;
 }
 .toolTipfadeIn{
-    transition: opacity,margin 0.2s ease;
+    transition: opacity 0.2s ease-out;
     opacity: 1;
-    margin-top: 0;
+    visibility: visible;
 }
 </style>
 
