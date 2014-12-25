@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<title>A Simple Tooltip Class Pure JS</title>
+<style>
+
+body{
+    font: 14px/1.4 sans-serif;
+}
+.tooltip{
+    position: absolute;
+    display: inline-block;
+    transition: opacity,margin 0.8s ease;
+    opacity: 0;
+    margin-top: 5px;
+}
+.tooltip-msg{
+    background: #FFF;
+	color: #222;
+	padding: 5px 15px;
+	border: 2px solid #222;
+	border-radius: 2px;
+	font-weight: bold;
+}
+.tooltip-arrow{
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-color: rgba(0, 0, 0, 0);
+    border-style: solid;
+    right: 15px;
+    margin-left: -5px;
+    border-width: 5px 5px 0;
+    border-top-color: #333;
+}
+.toolTipfadeIn{
+    transition: opacity,margin 0.2s ease;
+    opacity: 1;
+    margin-top: 0;
+}
+</style>
+
+</head>
+<body>
+<div style="position:relative;padding: 50px;">
+
+	<h1>A Simple Tooltip Class, Pure JS</h1> 
+
+	<p>Single-origin coffee biodiesel <a href="#" data-tooltip="Well how are you doing there partner?">banjo</a> jean shorts, meditation mlkshk DIY Echo Park letterpress stumptown. Artisan whatever dreamcatcher American Apparel, Bushwick plaid Truffaut fixie. <a href="#"  data-tooltip="I'm doing just fine thank you partner">PBR&B</a> food truck taxidermy, roof party lomo gentrify kogi butcher four dollar toast cornhole chambray locavore. Blue Bottle Etsy cred cliche, meh Pinterest American Apparel tattooed Truffaut <a href="#"  data-tooltip="How about those there apples?">YOLO</a> butcher wayfarers chia umami. Cold-pressed meggings listicle cornhole Banksy Kickstarter, chambray Odd Future Tumblr sartorial tofu cardigan mixtape mumblecore lumbersexual. Keffiyeh pickled mlkshk, Thundercats bespoke mustache literally cray brunch whatever hashtag. Odd Future American Apparel tofu migas, keffiyeh leggings Vice.</p>
+
+	<div class="tooltip" id="toolTip">
+	    <div class="tooltip-msg">Default text</div>
+	    <div class="tooltip-arrow"></div>
+	</div>
+    
+</div>
+
+
+<script>
+
+
+/* ------------------------------------------------
+
+    T o o l t i p    C l a s s
+    
+    Grabs the text from the 'data-tooltip' attribute and adds a mouseover and mouseout to show/hide the tooltip above the element requesting it.
+
+------------------------------------------------ */
+
+var Tooltip = function ( el ){
+    var self = this;
+    this.text = el.getAttribute('data-tooltip');
+    this.el = el;
+    this.toolTipElement = document.getElementById("toolTip");
+    this.el.addEventListener("mouseover", function(){
+       // pass element we want to align the tooltip to.
+       self.show( self.el );
+    });
+    this.el.addEventListener("mouseout", function(){
+       self.hide( );
+    });
+    return this;
+}
+
+Tooltip.prototype = {
+    show: function ( mousedOverEl ) {
+        this.toolTipElement.addClass("toolTipfadeIn");
+        this.setText();
+        this.position( mousedOverEl );
+        return this;
+    },
+    hide: function( ){
+        this.toolTipElement.removeClass("toolTipfadeIn");
+        return this;
+    },
+    setText: function () {
+      this.toolTipElement.querySelectorAll(".tooltip-msg")[0].innerHTML = this.text;
+      return this;
+    },
+    position: function (mousedOverEl) {
+        var mousedOverElRect = mousedOverEl.getOffsetRect(),
+            tooltipRect = this.toolTipElement.getOffsetRect();
+        
+        this.toolTipElement.style.left = Math.round(mousedOverElRect.left - tooltipRect.width + 20 ) +"px";
+        this.toolTipElement.style.top = (mousedOverElRect.top - 50) +"px";
+    },
+}
+
+/* ------------------------------------------------
+
+    C o n v e n i e n c e    M e t h o d s
+    
+    For doing generic things
+
+------------------------------------------------ */
+
+HTMLElement.prototype.getOffsetRect = function () {
+	// e.g. el.getOffsetRect(); 
+	// it returns { top:<Number>, left: <Number>, right: <Number>, width: <Number>  }
+    var box = this.getBoundingClientRect(),
+        body = document.body,
+        docElem = document.documentElement,
+        scrollTop = window.pageYOffset || docElem.scrollTop || body.scrollTop,
+        scrollLeft = window.pageXOffset || docElem.scrollLeft || body.scrollLeft,
+        clientTop = docElem.clientTop || body.clientTop || 0,
+        clientLeft = docElem.clientLeft || body.clientLeft || 0,
+        top  = box.top +  scrollTop - clientTop,
+        left = box.left + scrollLeft - clientLeft;
+    // return the offset coordintes of the element
+    return { 
+        top: Math.round(top), 
+        left: Math.round(left), 
+        right: Math.round(box.right),
+        width: Math.round(box.width)
+    }
+}
+
+HTMLElement.prototype.addClass = function( className ){
+	// e.g. el.addClass( 'className' ); 
+    if (this.classList){
+        this.classList.add(className);
+    }else{
+        this.className += ' ' + className;
+    }
+}
+
+HTMLElement.prototype.removeClass = function( className ){
+	// e.g. el.removeClass( 'className' ); 
+    if (this.classList){
+      this.classList.remove(className);
+    }else{
+      this.className = this.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
+    }
+}
+
+/* ------------------------------------------------
+
+    S e t u p
+    
+    Make 'Tooltip' instances from elements that have the 'data-tooltip' attribute.
+
+------------------------------------------------ */
+
+var tooltips = document.querySelectorAll('[data-tooltip]');
+
+for (i = 0; i < tooltips.length; i++) {
+    new Tooltip( tooltips[i] );
+}
+
+
+</script>
+
+
+</body>
+</html>
