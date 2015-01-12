@@ -12,6 +12,7 @@ body{
     transition: opacity 0 ease;
     opacity: 0;
     visibility: hidden;
+    margin-left: -5px;
 }
 .tooltip-msg{
     background: #FFF;
@@ -27,7 +28,7 @@ body{
     height: 0;
     border-color: rgba(0, 0, 0, 0);
     border-style: solid;
-    right: 15px;
+    left: 50%;
     margin-left: -5px;
     border-width: 5px 5px 0;
     border-top-color: #333;
@@ -37,15 +38,21 @@ body{
     opacity: 1;
     visibility: visible;
 }
+.w{
+    position:relative;
+    padding: 50px;
+}
+
 </style>
 
 </head>
 <body>
-<div style="position:relative;padding: 50px;">
+
+<div class="w">
 
 	<h1>A Simple Tooltip Class, Pure JS</h1> 
 
-	<p>Single-origin coffee biodiesel <a href="#" data-tooltip="Well how are you doing there partner?">banjo</a> jean shorts, meditation mlkshk DIY Echo Park letterpress stumptown. Artisan whatever dreamcatcher American Apparel, Bushwick plaid Truffaut fixie. <a href="#"  data-tooltip="I'm doing just fine thank you partner">PBR&B</a> food truck taxidermy, roof party lomo gentrify kogi butcher four dollar toast cornhole chambray locavore. Blue Bottle Etsy cred cliche, meh Pinterest American Apparel tattooed Truffaut <a href="#"  data-tooltip="How about those there apples?">YOLO</a> butcher wayfarers chia umami. Cold-pressed meggings listicle cornhole Banksy Kickstarter, chambray Odd Future Tumblr sartorial tofu cardigan mixtape mumblecore lumbersexual. Keffiyeh pickled mlkshk, Thundercats bespoke mustache literally cray brunch whatever hashtag. Odd Future American Apparel tofu migas, keffiyeh leggings Vice.</p>
+	<p>Single-origin coffee biodiesel <a href="#" data-tooltip="Well how are you doing?">banjo</a> jean shorts, meditation mlkshk DIY Echo Park letterpress stumptown. Artisan whatever dreamcatcher American Apparel, Bushwick plaid Truffaut fixie. <a href="#" data-tooltip="I'm doing just fine">PBR&B</a> food truck taxidermy, roof party lomo gentrify kogi butcher four dollar toast cornhole chambray locavore. Blue Bottle Etsy cred cliche, meh Pinterest American Apparel tattooed Truffaut <a href="#" data-tooltip="How about those there apples?">YOLO</a> butcher wayfarers chia umami. Cold-pressed meggings listicle <a href="#" data-tooltip="Or these?">cornhole Banksy Kickstarter</a>, chambray Odd Future Tumblr sartorial tofu cardigan mixtape mumblecore lumbersexual. Keffiyeh pickled mlkshk, Thundercats bespoke mustache literally cray brunch whatever hashtag. Odd Future American Apparel tofu migas, keffiyeh leggings Vice.</p>
 
 	<div class="tooltip" id="toolTip">
 	    <div class="tooltip-msg">Default text</div>
@@ -100,7 +107,7 @@ Tooltip.prototype = {
         var mousedOverElRect = mousedOverEl.getOffsetRect(),
             tooltipRect = this.toolTipElement.getOffsetRect();
         
-        this.toolTipElement.style.left = Math.round(mousedOverElRect.left - tooltipRect.width + 20 ) +"px";
+        this.toolTipElement.style.left = Math.round( ( mousedOverElRect.left + mousedOverElRect.width * 0.5 )  - (tooltipRect.width * 0.5 ) ) +"px";
         this.toolTipElement.style.top = (mousedOverElRect.top - 50) +"px";
     },
 }
@@ -108,8 +115,6 @@ Tooltip.prototype = {
 /* ------------------------------------------------
 
     C o n v e n i e n c e    M e t h o d s
-    
-    For doing generic things
 
 ------------------------------------------------ */
 
